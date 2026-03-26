@@ -363,6 +363,36 @@
     }
     .skill-list li:last-child { border-bottom: none; padding-bottom: 0; }
 
+    /* PROJECT BAND */
+    #project-band {
+      background: #141414;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 48px;
+    }
+    .band-inner {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    .band-title {
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      white-space: nowrap;
+      color: var(--white);
+    }
+    .project-logo-wrap { margin-bottom: 28px; }
+    .project-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 22px;
+      background: #0d1f1e;
+      padding: 8px;
+    }
+
     /* PROJECT — PEACH & PIT */
     #project {
       background: var(--white);
@@ -665,21 +695,21 @@
     <div class="hero-left">
       <p class="hero-label">Security Analyst &amp; App Developer — Clearfield, Utah</p>
       <h1 class="hero-name">Spencer<br/><em>Silva.</em></h1>
-      <p class="hero-desc">Security-focused professional with 5+ years of progressive IT and cybersecurity experience. Currently a Security Analyst at ShiftMed, and indie developer behind Peach &amp; Pit.</p>
+      <p class="hero-desc">Security-focused professional with 4+ years of progressive IT and cybersecurity experience. Currently a Security Analyst at ShiftMed, and indie developer behind Peach &amp; Pit.</p>
       <div class="hero-cta">
         <a href="#experience" class="btn">View Work</a>
-        <a href="mailto:spencersilva17@gmail.com" class="btn btn-ghost">Get In Touch</a>
+        <a href="/cdn-cgi/l/email-protection#f98a899c979a9c8b8a90958f98c8ceb99e94989095d79a9694" class="btn btn-ghost">Get In Touch</a>
       </div>
     </div>
     <div class="hero-right">
       <div class="location-tag">📍 Clearfield, Utah · Remote</div>
       <div class="stat-card">
-        <div class="stat-num">5+</div>
+        <div class="stat-num">4+</div>
         <div class="stat-label">Years in IT &amp; Security</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">10+</div>
-        <div class="stat-label">Security Tools </div>
+        <div class="stat-num">25%</div>
+        <div class="stat-label">Reduction in Compliance Issues</div>
       </div>
       <div class="stat-card">
         <div class="stat-num">2</div>
@@ -837,12 +867,24 @@
     </div>
   </section>
 
-  <!-- PROJECT -->
+  <!-- PROJECT HEADER BAND -->
+  <div id="project-band">
+    <div class="band-inner reveal">
+      <div class="section-label" style="color:rgba(245,245,240,0.35); margin-bottom:16px;">
+        <span style="display:block;width:40px;height:1px;background:rgba(245,245,240,0.2);"></span>
+        Side Project
+      </div>
+      <h2 class="band-title">Beyond the day job.</h2>
+    </div>
+  </div>
+
+  <!-- PROJECT CONTENT -->
   <section id="project">
-    <div class="section-label reveal">Side Project</div>
-    <h2 class="section-title reveal">Beyond<br/>the day job.</h2>
     <div class="project-inner">
       <div class="project-left reveal">
+        <div class="project-logo-wrap">
+          <img src="Designer-4-removebg-preview.png" alt="Peach and Pit logo" class="project-logo"/>
+        </div>
         <h3 class="project-name">Peach<span>&amp; Pit.</span></h3>
         <p class="project-desc">
           A social journaling app that captures your best and worst moments each day. 
@@ -922,7 +964,7 @@
   <section id="contact">
     <h2 class="contact-title reveal">Let's<br/><em>connect.</em></h2>
     <div class="contact-links reveal">
-      <a href="mailto:spencersilva17@gmail.com" class="btn">spencersilva17@gmail.com</a>
+      <a href="/cdn-cgi/l/email-protection#94e7e4f1faf7f1e6e7fdf8e2f5a5a3d4f3f9f5fdf8baf7fbf9" class="btn"><span class="__cf_email__" data-cfemail="bfcccfdad1dcdacdccd6d3c9de8e88ffd8d2ded6d391dcd0d2">[email&#160;protected]</span></a>
       <a href="tel:8014303658" class="btn btn-ghost">801-430-3658</a>
       <a href="https://peachandpit.com/" target="_blank" class="btn btn-ghost">peachandpit.com</a>
     </div>
@@ -934,11 +976,11 @@
     <div class="footer-links">
       <a href="https://apps.apple.com/us/app/peach-and-pit/id6736346637" target="_blank">App Store</a>
       <a href="https://play.google.com/store/apps/details?id=com.spencersilva.peachandpit" target="_blank">Google Play</a>
-      <a href="mailto:spencersilva17@gmail.com">Email</a>
+      <a href="/cdn-cgi/l/email-protection#88fbf8ede6ebedfafbe1e4fee9b9bfc8efe5e9e1e4a6ebe7e5">Email</a>
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Custom cursor
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
@@ -964,15 +1006,4 @@
 
     // Reveal on scroll
     const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
-  </script>
-</body>
-</html>
+    const observer = new I
