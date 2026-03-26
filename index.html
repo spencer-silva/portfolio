@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spencer Silva — Cybersecurity & Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #080808;
+      --white: #f5f5f0;
+      --dim: #888880;
+      --accent: #e8e8e0;
+      --border: rgba(245,245,240,0.1);
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-display);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--white);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(245,245,240,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease;
+      mix-blend-mode: difference;
+    }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.4;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    nav.scrolled {
+      border-color: var(--border);
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 48px 80px;
+      gap: 48px;
+      position: relative;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+    .hero-left { max-width: 580px; }
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--dim);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+    .hero-name {
+      font-size: clamp(52px, 7vw, 96px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+    .hero-name em {
+      font-style: normal;
+      color: var(--dim);
+    }
+    .hero-desc {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--dim);
+      max-width: 440px;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.65s forwards;
+    }
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 28px;
+      border: 1px solid var(--white);
+      color: var(--white);
+      background: transparent;
+      cursor: none;
+      transition: background 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn:hover { background: var(--white); color: var(--black); }
+    .btn-ghost {
+      border-color: var(--border);
+      color: var(--dim);
+    }
+    .btn-ghost:hover { border-color: var(--white); color: var(--white); background: transparent; }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      opacity: 0;
+      animation: fadeIn 1s 0.8s forwards;
+    }
+    .stat-card {
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .stat-num {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+      text-transform: uppercase;
+      text-align: right;
+      max-width: 120px;
+    }
+    .location-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--dim);
+      text-transform: uppercase;
+      padding: 12px 20px;
+      border: 1px solid var(--border);
+      display: inline-block;
+      align-self: flex-start;
+    }
+
+    /* SECTIONS */
+    section { padding: 120px 48px; border-bottom: 1px solid var(--border); }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--dim);
+      text-transform: uppercase;
+      margin-bottom: 64px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--dim);
+    }
+    .section-title {
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    /* EXPERIENCE */
+    #experience .exp-grid {
+      margin-top: 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    .exp-item:last-child { border-bottom: 1px solid var(--border); }
+    .exp-meta { }
+    .exp-company {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .exp-period {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+    .exp-role {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+    .exp-body { }
+    .exp-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .exp-bullets li {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--dim);
+      padding-left: 20px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--border);
+    }
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      color: var(--dim);
+    }
+
+    /* SKILLS */
+    #skills .skills-grid {
+      margin-top: 72px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .skill-group {
+      padding: 40px 40px 40px 0;
+      border-right: 1px solid var(--border);
+    }
+    .skill-group:last-child { border-right: none; padding-right: 0; padding-left: 40px; }
+    .skill-group:nth-child(2) { padding-left: 40px; }
+    .skill-group-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 24px;
+    }
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .skill-list li {
+      font-size: 16px;
+      font-weight: 500;
+      position: relative;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .skill-list li:last-child { border-bottom: none; padding-bottom: 0; }
+
+    /* PROJECT — PEACH & PIT */
+    #project {
+      background: var(--white);
+      color: var(--black);
+    }
+    #project .section-label { color: rgba(8,8,8,0.4); }
+    #project .section-label::before { background: rgba(8,8,8,0.2); }
+    #project .section-title { color: var(--black); }
+
+    .project-inner {
+      margin-top: 72px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .project-left { }
+    .project-name {
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+    .project-name span { 
+      display: block;
+      color: rgba(8,8,8,0.3);
+    }
+    .project-desc {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.9;
+      color: rgba(8,8,8,0.6);
+      margin-bottom: 36px;
+      max-width: 420px;
+    }
+    .project-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-dark {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 28px;
+      border: 1px solid var(--black);
+      color: var(--black);
+      background: transparent;
+      cursor: none;
+      transition: background 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-dark:hover { background: var(--black); color: var(--white); }
+    .btn-dark-fill {
+      background: var(--black);
+      color: var(--white);
+    }
+    .btn-dark-fill:hover { background: #333; color: var(--white); }
+
+    .project-right { }
+    .review-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .review-card {
+      border: 1px solid rgba(8,8,8,0.12);
+      padding: 24px;
+      background: rgba(8,8,8,0.03);
+    }
+    .review-text {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(8,8,8,0.65);
+      margin-bottom: 12px;
+    }
+    .review-author {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: rgba(8,8,8,0.4);
+      text-transform: uppercase;
+    }
+    .review-stars {
+      font-size: 12px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    .app-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(8,8,8,0.1);
+      border: 1px solid rgba(8,8,8,0.1);
+      margin-bottom: 24px;
+    }
+    .app-feature {
+      background: var(--white);
+      padding: 20px;
+    }
+    .app-feature-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(8,8,8,0.4);
+      margin-bottom: 6px;
+    }
+    .app-feature-val {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* EDUCATION */
+    #education {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .edu-left { }
+    .edu-right { }
+    .edu-degree {
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .edu-school {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--dim);
+      margin-bottom: 8px;
+    }
+    .edu-year {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+    .lang-block {
+      border: 1px solid var(--border);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .lang-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .lang-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .lang-name { font-size: 20px; font-weight: 700; }
+    .lang-level {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* CONTACT */
+    #contact {
+      text-align: center;
+      padding: 120px 48px;
+      border-bottom: none;
+    }
+    .contact-title {
+      font-size: clamp(48px, 8vw, 120px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      margin-bottom: 48px;
+    }
+    .contact-title em {
+      font-style: normal;
+      color: var(--dim);
+    }
+    .contact-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.05em;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--dim);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Marquee */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-flex;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-item {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dim);
+      padding: 0 40px;
+    }
+    .marquee-item span { color: var(--white); }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      nav .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+      #hero .hero-right { display: none; }
+      section { padding: 80px 24px; }
+      #experience .exp-item { grid-template-columns: 1fr; gap: 16px; }
+      #skills .skills-grid { grid-template-columns: 1fr; }
+      .skill-group { border-right: none; border-bottom: 1px solid var(--border); padding: 24px 0 !important; }
+      .project-inner { grid-template-columns: 1fr; gap: 40px; }
+      #education { grid-template-columns: 1fr; gap: 48px; }
+      .contact-title { font-size: 48px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">Spencer <span>Silva</span></a>
+    <ul class="nav-links">
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#project">Project</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-label">Security Analyst &amp; App Developer — Clearfield, Utah</p>
+      <h1 class="hero-name">Spencer<br/><em>Silva.</em></h1>
+      <p class="hero-desc">Security-focused professional with 4+ years of progressive IT and cybersecurity experience. Currently a Security Analyst at ShiftMed, and indie developer behind Peach &amp; Pit.</p>
+      <div class="hero-cta">
+        <a href="#experience" class="btn">View Work</a>
+        <a href="mailto:spencersilva17@gmail.com" class="btn btn-ghost">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="location-tag">📍 Clearfield, Utah · Remote</div>
+      <div class="stat-card">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Years in IT &amp; Security</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">25%</div>
+        <div class="stat-label">Reduction in Compliance Issues</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Languages — English &amp; Spanish</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item"><span>SOC II Compliance</span></span>
+      <span class="marquee-item">Microsoft Defender</span>
+      <span class="marquee-item"><span>Threat Analysis</span></span>
+      <span class="marquee-item">CrowdStrike</span>
+      <span class="marquee-item"><span>Incident Response</span></span>
+      <span class="marquee-item">Azure AD / Entra</span>
+      <span class="marquee-item"><span>Phishing Detection</span></span>
+      <span class="marquee-item">PowerShell</span>
+      <span class="marquee-item"><span>Data Loss Prevention</span></span>
+      <span class="marquee-item">Endpoint Security</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee-item"><span>SOC II Compliance</span></span>
+      <span class="marquee-item">Microsoft Defender</span>
+      <span class="marquee-item"><span>Threat Analysis</span></span>
+      <span class="marquee-item">CrowdStrike</span>
+      <span class="marquee-item"><span>Incident Response</span></span>
+      <span class="marquee-item">Azure AD / Entra</span>
+      <span class="marquee-item"><span>Phishing Detection</span></span>
+      <span class="marquee-item">PowerShell</span>
+      <span class="marquee-item"><span>Data Loss Prevention</span></span>
+      <span class="marquee-item">Endpoint Security</span>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label reveal">Experience</div>
+    <h2 class="section-title reveal">Career<br/>Timeline.</h2>
+    <div class="exp-grid">
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">ShiftMed</div>
+          <div class="exp-role">Virginia · Remote</div>
+          <div class="exp-period">Jun 2023 — Present</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-title">Security Analyst</div>
+          <ul class="exp-bullets">
+            <li>Monitor and respond to security incidents — phishing, malware, and suspicious account activity — using Microsoft Defender for Office 365.</li>
+            <li>Conduct phishing email analysis with PhishER; block malicious IPs and domains to protect organizational infrastructure.</li>
+            <li>Support SOC II audits by collecting and organizing security evidence, ensuring adherence to control requirements.</li>
+            <li>Design and deploy simulated phishing campaigns to test and improve employee security awareness.</li>
+            <li>Audit Microsoft Entra (Azure AD) to identify inactive accounts, improper access, and vulnerabilities.</li>
+            <li>Develop SOPs for Security, IT, and Legal teams — contributing to a 25% reduction in compliance issues.</li>
+            <li>Implement DLP controls including USB restrictions, Bluetooth blocking, and mobile data transfer limits.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag">Defender for O365</span>
+            <span class="tag">PhishER</span>
+            <span class="tag">CrowdStrike</span>
+            <span class="tag">Azure AD</span>
+            <span class="tag">Intune</span>
+            <span class="tag">SOC II</span>
+            <span class="tag">DLP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">Southern Utah University</div>
+          <div class="exp-role">Cedar City, Utah</div>
+          <div class="exp-period">Dec 2022 — Jun 2023</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-title">IT Systems Administrator</div>
+          <ul class="exp-bullets">
+            <li>Investigated spam and phishing emails to determine malicious intent and coordinate response actions.</li>
+            <li>Managed DHCP configurations to enforce network access controls for authorized devices only.</li>
+            <li>Verified identity of remote users before granting system access, maintaining secure authentication.</li>
+            <li>Collaborated with security team during internal penetration testing exercises.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag">DHCP</span>
+            <span class="tag">Network Security</span>
+            <span class="tag">Pen Testing</span>
+            <span class="tag">Authentication</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">Southern Utah University</div>
+          <div class="exp-role">Cedar City, Utah</div>
+          <div class="exp-period">Oct 2020 — Dec 2022</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-title">IT Help Desk Supervisor</div>
+          <ul class="exp-bullets">
+            <li>Resolved technical issues for walk-in and phone support clients with strict identity verification.</li>
+            <li>Performed secure password resets following authentication procedures to prevent social engineering.</li>
+            <li>Investigated CrowdStrike endpoint detection alerts in collaboration with the security team.</li>
+            <li>Executed user data backup procedures to ensure business continuity and compliance.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag">CrowdStrike</span>
+            <span class="tag">Help Desk</span>
+            <span class="tag">Data Backup</span>
+            <span class="tag">Social Engineering</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label reveal">Capabilities</div>
+    <h2 class="section-title reveal">Technical<br/>Toolkit.</h2>
+    <div class="skills-grid reveal">
+      <div class="skill-group">
+        <div class="skill-group-title">Security Tools</div>
+        <ul class="skill-list">
+          <li>Microsoft Defender for O365</li>
+          <li>PhishER</li>
+          <li>CrowdStrike</li>
+          <li>Burp Suite</li>
+          <li>Forensics &amp; Malware Tools</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Cloud &amp; Identity</div>
+        <ul class="skill-list">
+          <li>Microsoft Entra (Azure AD)</li>
+          <li>Microsoft Intune</li>
+          <li>Exchange / SharePoint</li>
+          <li>OneDrive</li>
+          <li>Microsoft 365 Admin</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Development &amp; Compliance</div>
+        <ul class="skill-list">
+          <li>PowerShell</li>
+          <li>Python</li>
+          <li>Bash / Linux</li>
+          <li>SOC II Audits</li>
+          <li>Security Documentation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT -->
+  <section id="project">
+    <div class="section-label reveal">Side Project</div>
+    <h2 class="section-title reveal">Beyond<br/>the day job.</h2>
+    <div class="project-inner">
+      <div class="project-left reveal">
+        <h3 class="project-name">Peach<span>&amp; Pit.</span></h3>
+        <p class="project-desc">
+          A social journaling app that captures your best and worst moments each day. 
+          Share your Peach (highlight) and your Pit (lowlight), rate your day 1–5, 
+          and stay connected with friends and family through life's everyday moments.
+        </p>
+        <div class="app-features">
+          <div class="app-feature">
+            <div class="app-feature-label">Platform</div>
+            <div class="app-feature-val">iOS &amp; Android</div>
+          </div>
+          <div class="app-feature">
+            <div class="app-feature-label">Category</div>
+            <div class="app-feature-val">Journaling</div>
+          </div>
+          <div class="app-feature">
+            <div class="app-feature-label">Role</div>
+            <div class="app-feature-val">Sole Developer</div>
+          </div>
+          <div class="app-feature">
+            <div class="app-feature-label">Status</div>
+            <div class="app-feature-val">Live ✓</div>
+          </div>
+        </div>
+        <div class="project-links">
+          <a href="https://peachandpit.com/" target="_blank" class="btn-dark">Website</a>
+          <a href="https://apps.apple.com/us/app/peach-and-pit/id6736346637" target="_blank" class="btn-dark btn-dark-fill">App Store</a>
+          <a href="https://play.google.com/store/apps/details?id=com.spencersilva.peachandpit&pcampaignid=web_share" target="_blank" class="btn-dark">Google Play</a>
+        </div>
+      </div>
+      <div class="project-right reveal">
+        <div class="review-stack">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"This app has changed my life! Helps me be more mindful and grateful for the little things. It's very easy to use and the reminders have helped me develop a positive habit of journaling daily."</p>
+            <div class="review-author">— APagh</div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"I'm so glad I found this app! It lets me focus on the most important parts of my day, with a simple design that helps me reflect on both the good and the not-so-good moments."</p>
+            <div class="review-author">— Ellie Mik</div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"It's super easy to post about your day and it's fun to look back on and read old journal entries!"</p>
+            <div class="review-author">— BallerBeast212</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="edu-left reveal">
+      <div class="section-label">Education</div>
+      <h2 class="edu-degree">Bachelor of Science<br/>in Cybersecurity.</h2>
+      <p class="edu-school">Southern Utah University, Cedar City, Utah</p>
+      <p class="edu-year">2019 — 2023</p>
+    </div>
+    <div class="edu-right reveal">
+      <div class="lang-block">
+        <div class="section-label" style="margin-bottom: 24px;">Languages</div>
+        <div class="lang-item">
+          <span class="lang-name">English</span>
+          <span class="lang-level">Native</span>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name">Spanish</span>
+          <span class="lang-level">Fluent</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2 class="contact-title reveal">Let's<br/><em>connect.</em></h2>
+    <div class="contact-links reveal">
+      <a href="mailto:spencersilva17@gmail.com" class="btn">spencersilva17@gmail.com</a>
+      <a href="tel:8014303658" class="btn btn-ghost">801-430-3658</a>
+      <a href="https://peachandpit.com/" target="_blank" class="btn btn-ghost">peachandpit.com</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-copy">© 2026 Spencer Silva. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="https://apps.apple.com/us/app/peach-and-pit/id6736346637" target="_blank">App Store</a>
+      <a href="https://play.google.com/store/apps/details?id=com.spencersilva.peachandpit" target="_blank">Google Play</a>
+      <a href="mailto:spencersilva17@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    document.querySelectorAll('a, button, .btn, .btn-dark').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; });
+      el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; });
+    });
+
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
