@@ -259,7 +259,6 @@
     }
     .skill-list li:last-child { border-bottom: none; padding-bottom: 0; }
 
-<<<<<<< HEAD
     /* PROJECT BAND */
     #project-band {
       background: #141414; border-top: 1px solid var(--border);
@@ -272,8 +271,6 @@
       letter-spacing: -0.03em; line-height: 1; white-space: nowrap; color: var(--white);
     }
 
-=======
->>>>>>> f5e489b60dd75b49648186a5e2dfda70656308c5
     /* PROJECT — PEACH & PIT */
     #project { background: var(--white); color: var(--black); border-bottom: none; }
     .project-inner {
@@ -462,15 +459,9 @@
     <div class="hero-left">
       <p class="hero-label">Security Engineer<br/>Application Security · DevSecOps · Security Automation</p>
       <h1 class="hero-name">Spencer<br/><em>Silva.</em></h1>
-<<<<<<< HEAD
       <p class="hero-desc">Security professional with 5+ years in IT and security. I protect identity, endpoint and email for a healthcare-staffing company, and build the automation that lets a small security team scale. Founder of Peach &amp; Pit.</p>
       <div class="hero-cta">
         <a href="#security-projects" class="btn">Security Projects</a>
-=======
-      <p class="hero-desc">Security-focused professional with 5+ years of progressive IT and cybersecurity experience. Currently a Security Analyst at ShiftMed, and indie developer behind Peach &amp; Pit.</p>
-      <div class="hero-cta">
-        <a href="#experience" class="btn">View Work</a>
->>>>>>> f5e489b60dd75b49648186a5e2dfda70656308c5
         <a href="mailto:spencersilva17@gmail.com" class="btn btn-ghost">Get In Touch</a>
       </div>
     </div>
@@ -481,13 +472,8 @@
         <div class="stat-label">Years in IT &amp; Security</div>
       </div>
       <div class="stat-card">
-<<<<<<< HEAD
         <div class="stat-num">288+</div>
         <div class="stat-label">Distribution lists migrated across 2 tenants</div>
-=======
-        <div class="stat-num">10+</div>
-        <div class="stat-label">Security Tools</div>
->>>>>>> f5e489b60dd75b49648186a5e2dfda70656308c5
       </div>
       <div class="stat-card">
         <div class="stat-num">5,338</div>
@@ -655,23 +641,25 @@
           <h3 class="case-title">Testing vulnerability scanners against a real CVE</h3>
           <div class="case-tags">
             <span class="tag">Vulnerability Management</span>
-            <span class="tag">Nessus</span>
+            <span class="tag">Tenable</span>
             <span class="tag">OpenVAS</span>
             <span class="tag">Intruder.io</span>
+            <span class="tag">Nuclei</span>
+            <span class="tag">ZAP</span>
           </div>
         </div>
         <div class="case-body">
           <div class="case-block">
             <div class="case-label">Problem</div>
-            <p>Replacing Tenable meant choosing a scanner I could trust, not just the cheapest one. Feature lists don't show whether a tool actually finds a real vulnerability.</p>
+            <p>Our scanner contract was up for renewal, and the question was whether to replace it. Feature lists and sales demos don’t show whether a tool will actually catch a real vulnerability, and that’s the only thing that matters.</p>
           </div>
           <div class="case-block">
             <div class="case-label">Approach</div>
-            <p>I evaluated Nessus, OpenVAS, ManageEngine and Intruder.io side by side, testing them against a known, real CVE (<span class="todo">REPLACE: CVE ID and test setup</span>) to compare detection, false positives and remediation guidance. Alongside the evaluation, I built a weekly severity tracker that monitors vendor releases and flags new Critical and High findings.</p>
+            <p>I benchmarked Intruder.io against our existing Tenable deployment, using open-source tools (OpenVAS, Nuclei, ZAP) as a baseline. Instead of comparing feature lists, I tested every scanner against the same recently disclosed nginx CVE on a controlled target. I compared whether each one detected it, how many false positives it reported, and how useful its fix guidance was. Separately, I replaced a paid release-monitoring service with an in-house weekly triage process that flags new Critical and High vulnerabilities from vendor release notes.</p>
           </div>
           <div class="case-block">
             <div class="case-label">What I learned</div>
-            <p><span class="todo">REPLACE: your main finding, for example which scanner detected it and where the gaps were</span></p>
+            <p>The test exposed a detection gap in our existing plan. Testing with a real CVE turned a vague “which tool is better?” into evidence. I used it to get our vendor to upgrade our tier, which closed the gap, and to negotiate a credit, so we kept a tool the team already knew instead of starting a migration. A small test with real data beats any demo.</p>
           </div>
         </div>
       </article>
@@ -684,20 +672,21 @@
             <span class="tag">Zero Trust</span>
             <span class="tag">SSO</span>
             <span class="tag">AI Governance</span>
+            <span class="tag">Cloudflare</span>
           </div>
         </div>
         <div class="case-body">
           <div class="case-block">
             <div class="case-label">Problem</div>
-            <p>AI coding tools let staff stand up an internal dashboard in an afternoon, and the quickest path is a public URL with no login. The data behind those dashboards is often the sensitive part.</p>
+            <p>AI coding tools let staff stand up an internal dashboard in an afternoon, and the quickest path is a public URL with no login. The data behind those dashboards is often the sensitive part, and in a SOC 2 environment an unauthenticated link to internal data is an audit finding waiting to happen.</p>
           </div>
           <div class="case-block">
             <div class="case-label">Approach</div>
-            <p>I put them behind SSO and Cloudflare Zero Trust so access follows identity and group membership instead of whoever has the link. <span class="todo">REPLACE: add specifics, such as the identity provider, access policies and how new dashboards are reviewed before launch</span></p>
+            <p>I flagged the exposure early and designed a single SSO-protected hosting path for these tools, using Cloudflare Workers and Pages behind Cloudflare Zero Trust with Microsoft Entra ID as the identity provider. Access follows identity and group membership instead of whoever has the link. I ran a proof of concept to confirm it worked, then wrote a vendor comparison for leadership weighing it against other hosting options.</p>
           </div>
           <div class="case-block">
             <div class="case-label">What I learned</div>
-            <p>Speed and security stop competing when the secure path is also the easy one. A ready-made, SSO-protected pattern works better than a policy telling people not to publish.</p>
+            <p>Speed and security stop competing when the secure path is also the easy one. A ready-made, SSO-protected pattern worked better than a policy telling people not to publish. Raising the risk early, with a working fix in hand, made it easy for leadership to approve.</p>
           </div>
         </div>
       </article>
@@ -783,7 +772,6 @@
     </div>
   </section>
 
-<<<<<<< HEAD
   <!-- PROJECT HEADER BAND -->
   <div id="project-band">
     <div class="reveal">
@@ -793,22 +781,13 @@
   </div>
 
   <!-- PEACH & PIT -->
-=======
-  <!-- PROJECT -->
->>>>>>> f5e489b60dd75b49648186a5e2dfda70656308c5
   <section id="project">
-    <div class="section-label reveal">Side Project</div>
-    <h2 class="section-title reveal">Beyond<br/>the day job.</h2>
     <div class="project-inner">
       <div class="project-left reveal">
-<<<<<<< HEAD
         <div class="project-logo-wrap">
           <img src="Designer-4-removebg-preview.png" alt="Peach and Pit logo" class="project-logo"/>
         </div>
         <h3 class="project-name">Peach <span>&amp; Pit.</span></h3>
-=======
-        <h3 class="project-name">Peach<span>&amp; Pit.</span></h3>
->>>>>>> f5e489b60dd75b49648186a5e2dfda70656308c5
         <p class="project-desc">
           A social journaling app that captures your best and worst moments each day.
           Share your Peach (highlight) and your Pit (lowlight), rate your day 1–5,
@@ -925,20 +904,13 @@
   <footer>
     <span class="footer-copy">© 2026 Spencer Silva. All rights reserved.</span>
     <div class="footer-links">
-<<<<<<< HEAD
       <a href="https://peachandpit.com/" target="_blank" rel="noopener">Peach &amp; Pit</a>
       <a href="https://apps.apple.com/us/app/peach-and-pit/id6736346637" target="_blank" rel="noopener">App Store</a>
       <a href="https://play.google.com/store/apps/details?id=com.spencersilva.peachandpit" target="_blank" rel="noopener">Google Play</a>
-=======
-      <a href="https://apps.apple.com/us/app/peach-and-pit/id6736346637" target="_blank">App Store</a>
-      <a href="https://play.google.com/store/apps/details?id=com.spencersilva.peachandpit" target="_blank">Google Play</a>
-      <a href="mailto:spencersilva17@gmail.com">Email</a>
->>>>>>> f5e489b60dd75b49648186a5e2dfda70656308c5
     </div>
   </footer>
 
   <script>
-<<<<<<< HEAD
     // Seamless marquee: clone the items once instead of duplicating markup
     const track = document.getElementById('marqueeTrack');
     Array.from(track.children).forEach(el => {
@@ -947,8 +919,6 @@
       track.appendChild(clone);
     });
 
-=======
->>>>>>> f5e489b60dd75b49648186a5e2dfda70656308c5
     // Custom cursor
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
@@ -973,7 +943,6 @@
     });
 
     // Reveal on scroll
-<<<<<<< HEAD
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -983,18 +952,6 @@
       });
     }, { threshold: 0.05 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-=======
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
->>>>>>> f5e489b60dd75b49648186a5e2dfda70656308c5
   </script>
 </body>
 </html>
